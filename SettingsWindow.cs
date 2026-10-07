@@ -32,7 +32,7 @@ public sealed class SettingsWindow : Window
 
         var size = AddSlider(root, "Taille des icônes", 28, 128, 1, _cfg.IconSize, v => $"{v:0} px", v => _cfg.IconSize = Math.Round(v));
         var offset = AddSlider(root, "Position verticale (0 = bord de l'écran)", 0, 150, 1, _cfg.VerticalOffset, v => $"{v:0} px", v => _cfg.VerticalOffset = Math.Round(v));
-        var zoom = AddSlider(root, "Zoom au survol", 1.0, 2.5, 0.05, _cfg.Zoom, v => $"×{v:0.00}", v => _cfg.Zoom = Math.Round(v, 2));
+        var zoom = AddSlider(root, "Zoom au survol (100 % = aucun zoom)", 1.0, 3.0, 0.05, _cfg.Zoom, v => $"{v * 100:0} %", v => _cfg.Zoom = Math.Round(v, 2));
 
         var themes = ThemeManager.LoadAll().Select(t => new KeyValuePair<string, object>(t.Name, t.Name)).ToList();
         Slider? opacity = null;
