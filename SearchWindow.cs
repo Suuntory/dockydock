@@ -53,6 +53,10 @@ public sealed class SearchWindow : Window
         Width = PanelWidth + 2 * Margin_;
         WindowStartupLocation = WindowStartupLocation.Manual;
 
+        // Gabarit minimal : le thème sombre de WPF dessinerait sinon son propre cadre (rectangle gris) autour du champ.
+        var inputTemplate = new ControlTemplate(typeof(TextBox));
+        inputTemplate.VisualTree = new FrameworkElementFactory(typeof(ScrollViewer)) { Name = "PART_ContentHost" };
+        _input.Template = inputTemplate;
         _input.BorderThickness = new Thickness(0);
         _input.Background = Brushes.Transparent;
         _input.FontSize = 22;
@@ -217,6 +221,9 @@ public sealed class SearchWindow : Window
     {
         var list = new List<SearchResult>();
 
+        var path = TryPath(text);
+        if (path != null) list.Add(path);
+
         string? calc = Calculator.TryEvaluate(text);
         if (calc != null)
             list.Add(new SearchResult { Kind = ResultKind.Calc, Title = calc, Subtitle = $"{text} - Entrée pour copier le résultat", Copy = calc });
@@ -235,6 +242,35 @@ public sealed class SearchWindow : Window
             Target = string.Format(_cfg.WebSearchUrl, Uri.EscapeDataString(text)),
         });
         return list;
+    }
+
+    /// <summary>Le texte est-il un chemin existant ? ("C:\Users\...", "%APPDATA%\...", "~\Documents", "\\serveur\partage")</summary>
+    private static SearchResult? TryPath(string text)
+    {
+        string t = text.Trim().Trim('"');
+        if (t.Length < 2) return null;
+        bool looksLikePath = t.Contains('\\') || t.Contains('/') || t.Contains(':') || t.StartsWith('%') || t.StartsWith('~');
+        if (!looksLikePath) return null;
+
+        if (t.StartsWith('~')) t = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + t.Substring(1);
+        t = Environment.ExpandEnvironmentVariables(t);
+
+        try
+        {
+            bool isDir = System.IO.Directory.Exists(t);
+            if (!isDir && !System.IO.File.Exists(t)) return null;
+            string full = System.IO.Path.GetFullPath(t);
+            string name = System.IO.Path.GetFileName(full.TrimEnd('\\', '/'));
+            return new SearchResult
+            {
+                Kind = ResultKind.File,
+                Title = string.IsNullOrEmpty(name) ? full : name,
+                Subtitle = (isDir ? "Ouvrir le dossier - " : "Ouvrir le fichier - ") + full,
+                Target = full,
+                IconPath = full,
+            };
+        }
+        catch { return null; } // chemin invalide
     }
 
     private void ClearResults()
