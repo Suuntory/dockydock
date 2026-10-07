@@ -32,6 +32,7 @@ public sealed class IconPickerWindow : Window
 
         Title = "Changer l'icône - " + itemName;
         Icon = AppIcon.Source;
+        DarkTitleBar.Apply(this);
         Width = 560;
         Height = 560;
         MinWidth = 320;

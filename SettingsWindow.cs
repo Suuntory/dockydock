@@ -23,7 +23,8 @@ public sealed class SettingsWindow : Window
 
         Title = "Paramètres - DockyDock";
         Icon = AppIcon.Source;
-        Width = 440;
+        Width = 520;
+        DarkTitleBar.Apply(this);
         SizeToContent = SizeToContent.Height;
         ResizeMode = ResizeMode.NoResize;
         WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -186,7 +187,7 @@ public sealed class SettingsWindow : Window
     private static TabItem NewTab(out StackPanel panel, string header)
     {
         panel = new StackPanel { Margin = new Thickness(14, 10, 14, 14) };
-        return new TabItem { Header = header, Content = panel, Padding = new Thickness(10, 4, 10, 4) };
+        return new TabItem { Header = header, Content = panel, Padding = new Thickness(10, 4, 10, 4), MinWidth = 0, Width = 140 };
     }
 
     private void Changed()

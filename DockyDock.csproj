@@ -11,7 +11,7 @@
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
     <AssemblyName>DockyDock</AssemblyName>
     <RootNamespace>DockyDock</RootNamespace>
-    <NoWarn>$(NoWarn);WFO0003</NoWarn>
+    <NoWarn>$(NoWarn);WFO0003;WPF0001</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
