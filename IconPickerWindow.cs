@@ -31,6 +31,7 @@ public sealed class IconPickerWindow : Window
         _selected = currentIcon;
 
         Title = "Changer l'icône - " + itemName;
+        Icon = AppIcon.Source;
         Width = 560;
         Height = 560;
         MinWidth = 320;

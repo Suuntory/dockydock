@@ -8,6 +8,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
     <AssemblyName>DockyDock</AssemblyName>
     <RootNamespace>DockyDock</RootNamespace>
     <NoWarn>$(NoWarn);WFO0003</NoWarn>

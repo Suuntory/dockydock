@@ -11,6 +11,7 @@ internal sealed class TrayIcon : IDisposable
     public TrayIcon(DockWindow dock, System.Windows.Application app)
     {
         var menu = new ContextMenuStrip();
+        menu.Items.Add("Rechercher", null, (_, _) => SearchFeature.Instance?.Toggle());
         menu.Items.Add("Paramètres…", null, (_, _) => dock.ShowSettings());
         menu.Items.Add(new ToolStripSeparator());
         menu.Items.Add("Quitter", null, (_, _) => app.Shutdown());

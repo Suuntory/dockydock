@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 
@@ -7,7 +8,7 @@ namespace DockyDock;
 internal static class Program
 {
     [STAThread]
-    private static void Main()
+    private static void Main(string[] args)
     {
         using var mutex = new Mutex(true, "DockyDock.SingleInstance", out bool created);
         if (!created) return;
@@ -16,8 +17,11 @@ internal static class Program
         var cfg = DockConfig.Load();
         ThemeManager.EnsureBuiltIns();
         var dock = new DockWindow(cfg);
+        using var search = new SearchFeature(cfg, app.Dispatcher);
         using var tray = new TrayIcon(dock, app);
         dock.Show();
+        search.Apply();
+        if (args.Contains("--search")) app.Dispatcher.BeginInvoke(new Action(search.Toggle), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
         app.Run();
     }
 }

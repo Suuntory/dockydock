@@ -62,6 +62,12 @@ public sealed class DockConfig
     public string Theme { get; set; } = "First";
     /// <summary>Remplace l'opacité du thème (0 à 1) ; null = valeur du thème.</summary>
     public double? Opacity { get; set; }
+    /// <summary>Recherche (applis, fichiers, calculs) ouverte par un raccourci global.</summary>
+    public bool SearchEnabled { get; set; } = true;
+    /// <summary>Raccourci de la recherche, ex. "Win+Alt" (modificateurs seuls) ou "Ctrl+Space".</summary>
+    public string SearchHotkey { get; set; } = "Win+Alt";
+    /// <summary>Recherche web de secours ; {0} = texte saisi.</summary>
+    public string WebSearchUrl { get; set; } = "https://www.google.com/search?q={0}";
     /// <summary>"maximized" (masqué sous une fenêtre maximisée), "always" ou "never".</summary>
     public string HideMode { get; set; } = "maximized";
     public List<DockItem> Items { get; set; } = new();
